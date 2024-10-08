@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
-using MovieTicketApi;
-using MovieTicketApi.DBContext;
+using Microsoft.Extensions.Configuration;
+using MovieTicketApi.DatabaseContext;
+using MovieTicketApi.Repo;
+using MovieTicketApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,11 +11,15 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+
+//builder.Services.AddScoped<IMovieTicketDbContext, MovieTicketDbContext>();
+builder.Services.AddDbContext<MovieTicketDbContext>(options => 
+    options.UseSqlServer(builder.Configuration.GetConnectionString("MovieTicketDb")));
+
+builder.Services.AddScoped(typeof(IMovieTicketRepository<>), typeof(MovieTicketRepository<>));
+builder.Services.AddScoped<IMovieService, MovieService>();
 builder.Services.AddSwaggerGen();
-//builder.Services.AddDbContext<MTContext>(options =>
-//{
-//    options.UseSqlServer("Data Source=.;Initial Catalog=MovieTicket;Integrated Security=True;"); // Replace with your actual connection string
-//});
+
 
 var app = builder.Build();
 

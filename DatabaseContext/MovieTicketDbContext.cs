@@ -3,13 +3,20 @@ using MovieTicketApi.Entities;
 
 namespace MovieTicketApi.DatabaseContext
 {
-    public class MovieTicketDbContext : DbContext
+    public class MovieTicketDbContext : DbContext //, IMovieTicketDbContext
     {
         public DbSet<MovieMaster> MovieMasters { get; set; }
         public DbSet<TheatreMaster> TheatreMasters { get; set; }
         public DbSet<UserMaster> UserMasters { get; set; }
         public DbSet<TheatreScreen> TheatreScreens { get; set; }
         public DbSet<Booking> Bookings { get; set; }
+
+        public MovieTicketDbContext()
+        {
+            
+        }
+
+        public MovieTicketDbContext(DbContextOptions<MovieTicketDbContext> options) : base(options) { }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

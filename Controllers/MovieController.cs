@@ -2,6 +2,7 @@
 using MovieTicketApi.DatabaseContext;
 using MovieTicketApi.DTO;
 using MovieTicketApi.Entities;
+using MovieTicketApi.Services;
 using System.Net;
 
 namespace MovieTicketApi.Controllers
@@ -10,6 +11,12 @@ namespace MovieTicketApi.Controllers
     [ApiController]
     public class MovieController : Controller
     {
+        private readonly IMovieService _movieService;
+        public MovieController(IMovieService movieService)
+        {
+            _movieService = movieService;
+        }
+
         [HttpGet("GetMovie")]
         public List<MovieDto> Get()
         {
@@ -20,6 +27,20 @@ namespace MovieTicketApi.Controllers
                 Language = p.Language,
                 RunTime = p.RunningMin
             }).ToList();
+        }
+
+        [HttpGet("GetAllMovie")]
+        public async Task<List<MovieDto>> GetAll()
+        {
+            //var context = new MovieTicketDbContext();
+            //return context.MovieMasters.Select(p => new MovieDto()
+            //{
+            //    Name = p.Name,
+            //    Language = p.Language,
+            //    RunTime = p.RunningMin
+            //}).ToList();
+            var movies = await _movieService.GetAllMovieNameAsync();
+            return movies;
         }
 
         [HttpPost("AddMovie")]
