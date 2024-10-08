@@ -6,16 +6,16 @@ namespace MovieTicketApi.Services
 {
     public class MovieService
     {
-        private readonly MovieNameRepo _repo;
+        //private readonly MovieNameRepo _repo;
 
-        public MovieService(MovieNameRepo repo)
-        {
-            _repo = repo;
-        }
+        //public MovieService(MovieNameRepo repo)
+        //{
+        //    _repo = repo;
+        //}
 
-        public async Task<IEnumerable<MovieNameModel>> GetAllMovieNameAsync()
-        {
-            return await _repo.GetAllAsync();
-        }
+        //public async Task<IEnumerable<MovieNameModel>> GetAllMovieNameAsync()
+        //{
+        //    return await _repo.GetAllAsync();
+        //}
     }
 }

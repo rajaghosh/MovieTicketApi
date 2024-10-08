@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using MovieTicketApi;
 using MovieTicketApi.DBContext;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -28,5 +29,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+//Test.TestDB();
 
 app.Run();

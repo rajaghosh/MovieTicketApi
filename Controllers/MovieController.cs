@@ -1,100 +1,75 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using MovieTicketApi.Services;
+﻿using Microsoft.AspNetCore.Mvc;
+using MovieTicketApi.DatabaseContext;
+using MovieTicketApi.DTO;
+using MovieTicketApi.Entities;
+using System.Net;
 
 namespace MovieTicketApi.Controllers
 {
-    public class MovieController : ControllerBase
+    [Route("api/[controller]")]
+    [ApiController]
+    public class MovieController : Controller
     {
-    //    public class MovieController : Controller
-    //{
-        private readonly MovieService _movieService;
-        public MovieController(MovieService movieService)
+        [HttpGet("GetMovie")]
+        public List<MovieDto> Get()
         {
-            _movieService = movieService;
+            var context = new MovieTicketDbContext();
+            return context.MovieMasters.Select(p => new MovieDto()
+            {
+                Name = p.Name,
+                Language = p.Language,
+                RunTime = p.RunningMin
+            }).ToList();
         }
 
-        [HttpGet("GetMovieName")]
-        public async Task<IActionResult> GetAll()
+        [HttpPost("AddMovie")]
+        public HttpStatusCode Post(AddMovieDto movieDto)
         {
-            var movies = await _movieService.GetAllMovieNameAsync();
-            return Ok(movies);
+            var context = new MovieTicketDbContext();
+            var movieObj = new MovieMaster()
+            {
+                Name = movieDto.Name,
+                Language = movieDto.Language,
+                Description = movieDto.Description,
+                RunningMin = movieDto.RunTime
+            };
 
+            context.MovieMasters.Add(movieObj);
+
+            context.SaveChanges();
+            return HttpStatusCode.OK;
         }
 
-        //// GET: MovieController
-        //public ActionResult Index()
-        //{
-        //    return View();
-        //}
+        [HttpPut("UpdateMovie")]
+        public HttpStatusCode Put(UpdateMovieDto movieDto)
+        {
+            var context = new MovieTicketDbContext();
+            var movieObj = new MovieMaster()
+            {
+                Id = movieDto.Id,
+                Name = movieDto.Name,
+                Language = movieDto.Language,
+                Description = movieDto.Description,
+                RunningMin = movieDto.RunTime
+            };
 
-        //// GET: MovieController/Details/5
-        //public ActionResult Details(int id)
-        //{
-        //    return View();
-        //}
+            context.MovieMasters.Update(movieObj);
 
-        //// GET: MovieController/Create
-        //public ActionResult Create()
-        //{
-        //    return View();
-        //}
+            context.SaveChanges();
+            return HttpStatusCode.OK;
+        }
 
-        //// POST: MovieController/Create
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Create(IFormCollection collection)
-        //{
-        //    try
-        //    {
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
-        //}
+        [HttpDelete("DeleteMovie")]
+        public HttpStatusCode Delete(int movieId)
+        {
+            var context = new MovieTicketDbContext();
+            var movieObj = context.MovieMasters.First(x => x.Id == movieId);
 
-        //// GET: MovieController/Edit/5
-        //public ActionResult Edit(int id)
-        //{
-        //    return View();
-        //}
+            context.MovieMasters.Remove(movieObj);
 
-        //// POST: MovieController/Edit/5
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Edit(int id, IFormCollection collection)
-        //{
-        //    try
-        //    {
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
-        //}
+            context.SaveChanges();
+            return HttpStatusCode.OK;
+        }
 
-        //// GET: MovieController/Delete/5
-        //public ActionResult Delete(int id)
-        //{
-        //    return View();
-        //}
-
-        //// POST: MovieController/Delete/5
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Delete(int id, IFormCollection collection)
-        //{
-        //    try
-        //    {
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
-        //}
     }
 }

@@ -3,11 +3,11 @@ using MovieTicketApi.Models;
 
 namespace MovieTicketApi.DBContext
 {
-    public class MTContext: DbContext
-    {   
-        public DbSet<MovieNameModel> MovieNames { get; set; }
+    //public class MTContext: DbContext
+    //{   
+    //    public DbSet<MovieNameModel> MovieNames { get; set; }
 
-        public MTContext() {}
-        public MTContext(DbContextOptions<MTContext> options) : base(options) {}
-    }
+    //    public MTContext() {}
+    //    public MTContext(DbContextOptions<MTContext> options) : base(options) {}
+    //}
 }
