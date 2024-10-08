@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using MovieTicketApi.DatabaseContext;
-using MovieTicketApi.Repo;
+using MovieTicketApi.DatabaseContext.Repo;
 using MovieTicketApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);

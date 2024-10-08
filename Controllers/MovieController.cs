@@ -17,80 +17,34 @@ namespace MovieTicketApi.Controllers
             _movieService = movieService;
         }
 
-        [HttpGet("GetMovie")]
-        public List<MovieDto> Get()
-        {
-            var context = new MovieTicketDbContext();
-            return context.MovieMasters.Select(p => new MovieDto()
-            {
-                Name = p.Name,
-                Language = p.Language,
-                RunTime = p.RunningMin
-            }).ToList();
-        }
-
         [HttpGet("GetAllMovie")]
         public async Task<List<MovieDto>> GetAll()
         {
-            //var context = new MovieTicketDbContext();
-            //return context.MovieMasters.Select(p => new MovieDto()
-            //{
-            //    Name = p.Name,
-            //    Language = p.Language,
-            //    RunTime = p.RunningMin
-            //}).ToList();
             var movies = await _movieService.GetAllMovieNameAsync();
             return movies;
         }
 
-        [HttpPost("AddMovie")]
-        public HttpStatusCode Post(AddMovieDto movieDto)
+        [HttpPost("AddNewMovie")]
+        public async Task<HttpStatusCode> PostMovie(AddMovieDto movieDto)
         {
-            var context = new MovieTicketDbContext();
-            var movieObj = new MovieMaster()
-            {
-                Name = movieDto.Name,
-                Language = movieDto.Language,
-                Description = movieDto.Description,
-                RunningMin = movieDto.RunTime
-            };
-
-            context.MovieMasters.Add(movieObj);
-
-            context.SaveChanges();
-            return HttpStatusCode.OK;
+            var res = await _movieService.AddToMovieAsync(movieDto);
+            return res == true ? HttpStatusCode.OK : HttpStatusCode.InternalServerError;
         }
 
         [HttpPut("UpdateMovie")]
-        public HttpStatusCode Put(UpdateMovieDto movieDto)
+        public async Task<HttpStatusCode> PutMovie(UpdateMovieDto movieDto)
         {
-            var context = new MovieTicketDbContext();
-            var movieObj = new MovieMaster()
-            {
-                Id = movieDto.Id,
-                Name = movieDto.Name,
-                Language = movieDto.Language,
-                Description = movieDto.Description,
-                RunningMin = movieDto.RunTime
-            };
-
-            context.MovieMasters.Update(movieObj);
-
-            context.SaveChanges();
-            return HttpStatusCode.OK;
+            var res = await _movieService.UpdateMovieAsync(movieDto);
+            return res == true ? HttpStatusCode.OK : HttpStatusCode.InternalServerError;
         }
 
         [HttpDelete("DeleteMovie")]
-        public HttpStatusCode Delete(int movieId)
+        public async Task<HttpStatusCode> Delete(int movieId)
         {
-            var context = new MovieTicketDbContext();
-            var movieObj = context.MovieMasters.First(x => x.Id == movieId);
-
-            context.MovieMasters.Remove(movieObj);
-
-            context.SaveChanges();
-            return HttpStatusCode.OK;
+            var res = await _movieService.DeleteMovieAsync(movieId);
+            return res == true ? HttpStatusCode.OK : HttpStatusCode.InternalServerError;
         }
-
     }
 }
+
+

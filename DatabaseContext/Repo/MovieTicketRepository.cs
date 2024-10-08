@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MovieTicketApi.DatabaseContext;
 
-namespace MovieTicketApi.Repo
+namespace MovieTicketApi.DatabaseContext.Repo
 {
-    public class MovieTicketRepository<TEntity>: IMovieTicketRepository<TEntity> where TEntity : class
+    public class MovieTicketRepository<TEntity> : IMovieTicketRepository<TEntity> where TEntity : class
     {
         private readonly MovieTicketDbContext _dbContext;
 
@@ -42,7 +42,7 @@ namespace MovieTicketApi.Repo
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            GC.SuppressFinalize(this);
         }
     }
 }

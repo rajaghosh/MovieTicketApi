@@ -11,11 +11,7 @@ namespace MovieTicketApi.DatabaseContext
         public DbSet<TheatreScreen> TheatreScreens { get; set; }
         public DbSet<Booking> Bookings { get; set; }
 
-        public MovieTicketDbContext()
-        {
-            
-        }
-
+        public MovieTicketDbContext() { }
         public MovieTicketDbContext(DbContextOptions<MovieTicketDbContext> options) : base(options) { }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
