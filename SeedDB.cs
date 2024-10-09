@@ -3,7 +3,7 @@ using MovieTicketApi.Entities;
 
 namespace MovieTicketApi
 {
-    public class Test
+    public class SeedDB
     {
         public static void TestDB()
         {
@@ -28,6 +28,16 @@ namespace MovieTicketApi
                 new TheatreMaster{ Name="PVR-NCR", Description="Multiplex", Location="NCR"}
             };
             context.TheatreMasters.AddRange(theatres);
+
+            List<UserMaster> users = new List<UserMaster>()
+            {
+                new UserMaster{ Email="a1@deloitte.com", Password="abc1@123", Location="kolkata"},
+                new UserMaster{ Email="a2@deloitte.com", Password="abc2@123", Location="Hyderabad"},
+                new UserMaster{ Email="a3@deloitte.com", Password="abc3@123", Location="Pune"},
+                new UserMaster{ Email="a4@deloitte.com", Password="abc4@123", Location="NCR"},
+
+            };
+            context.UserMasters.AddRange(users);
 
             context.SaveChanges();
         }

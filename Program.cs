@@ -1,7 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using MovieTicketApi;
 using MovieTicketApi.DatabaseContext;
 using MovieTicketApi.DatabaseContext.Repo;
+using MovieTicketApi.Middleware;
 using MovieTicketApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,14 +14,16 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 
-//builder.Services.AddScoped<IMovieTicketDbContext, MovieTicketDbContext>();
 builder.Services.AddDbContext<MovieTicketDbContext>(options => 
     options.UseSqlServer(builder.Configuration.GetConnectionString("MovieTicketDb")));
 
 builder.Services.AddScoped(typeof(IMovieTicketRepository<>), typeof(MovieTicketRepository<>));
 builder.Services.AddScoped<IMovieService, MovieService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddSwaggerGen();
 
+builder.Services.GetToken(builder.Configuration);
 
 var app = builder.Build();
 
@@ -36,6 +40,6 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-//Test.TestDB();
+//SeedDB.TestDB();
 
 app.Run();
