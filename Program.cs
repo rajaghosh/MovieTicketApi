@@ -27,6 +27,7 @@ builder.Services.AddScoped<ITheatreService, TheatreService>();
 builder.Services.AddScoped<ITheatreScreenService, TheatreScreenService>();
 builder.Services.AddScoped<IBookingService, BookingService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IMovieListingService, MovieListingService>();
 
 builder.Services.AddSwaggerGen();
 

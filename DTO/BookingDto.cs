@@ -24,8 +24,7 @@ namespace MovieTicketApi.DTO
         public int ScreenId { get; set; }
         public int Row { get; set; }
         public string SeatNo { get; set; }
-        public int BookingHour { get; set; }
-        public int BookingMin { get; set; }
+        public DateTime BookingDateTime { get; set; }
     }
 
     public class UpdateBookingDto : AddBookingDto

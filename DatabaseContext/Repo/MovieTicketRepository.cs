@@ -17,6 +17,11 @@ namespace MovieTicketApi.DatabaseContext.Repo
             return await _dbContext.Set<TEntity>().FindAsync(id);
         }
 
+        public IEnumerable<TEntity> Find(Func<TEntity, bool> predicate)
+        {
+            return _dbContext.Set<TEntity>().Where(predicate);
+        }
+
         public async Task<IEnumerable<TEntity>> GetAllAsync()
         {
             return await _dbContext.Set<TEntity>().ToListAsync();
