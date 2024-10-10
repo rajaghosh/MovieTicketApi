@@ -1,8 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MovieTicketApi.DatabaseContext;
 using MovieTicketApi.DTO;
 using MovieTicketApi.Entities;
-using MovieTicketApi.Services;
+using MovieTicketApi.Services.Interface;
 using System.Net;
 
 namespace MovieTicketApi.Controllers
@@ -23,6 +24,15 @@ namespace MovieTicketApi.Controllers
             var movies = await _movieService.GetAllMovieNameAsync();
             return movies;
         }
+
+        [Authorize]
+        [HttpGet("GetAllMovieTest")]
+        public async Task<List<MovieDto>> GetAll_Test()
+        {
+            var movies = await _movieService.GetAllMovieNameAsync();
+            return movies;
+        }
+
 
         [HttpPost("AddNewMovie")]
         public async Task<HttpStatusCode> PostMovie(AddMovieDto movieDto)

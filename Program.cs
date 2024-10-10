@@ -4,7 +4,9 @@ using MovieTicketApi;
 using MovieTicketApi.DatabaseContext;
 using MovieTicketApi.DatabaseContext.Repo;
 using MovieTicketApi.Middleware;
-using MovieTicketApi.Services;
+using MovieTicketApi.Services.Implementation;
+using MovieTicketApi.Services.Interface;
+using TheatreTicketApi.Services.Interface;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,8 +21,13 @@ builder.Services.AddDbContext<MovieTicketDbContext>(options =>
 
 builder.Services.AddScoped(typeof(IMovieTicketRepository<>), typeof(MovieTicketRepository<>));
 builder.Services.AddScoped<IMovieService, MovieService>();
-builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IUserService, UserService>();
+//builder.Services.AddScoped<ITicketService, TicketService>();
+builder.Services.AddScoped<ITheatreService, TheatreService>();
+builder.Services.AddScoped<ITheatreScreenService, TheatreScreenService>();
+builder.Services.AddScoped<IBookingService, BookingService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
+
 builder.Services.AddSwaggerGen();
 
 builder.Services.GetToken(builder.Configuration);
@@ -37,9 +44,13 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+//app.UseAuthorization();
+
+//app.UseMiddleware<RequestHeaderMiddleware>();
 
 app.MapControllers();
 
 //SeedDB.TestDB();
 
 app.Run();
+

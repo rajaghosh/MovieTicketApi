@@ -11,15 +11,18 @@ namespace MovieTicketApi.Entities
         public int Id { get; set; }
         [UserRole]
         public required string DoneBy { get; set; }
-        public int UserId { get; set; }
+        [ForeignKey("UserMaster")]
+        public int? UserId { get; set; }
         [ForeignKey("MovieMaster")]
         public int MovieId { get; set; }
         [ForeignKey("TheatreScreen")]
         public int ScreenId { get; set; }
         public int Row { get; set; }
-        public int SeatNo { get; set; }
+        public string SeatNo { get; set; }
+        public DateTime ShowTime { get; set; }
 
 
+        public virtual UserMaster UserMaster { get; set; }    //This will be used for FK crud operation
         public virtual MovieMaster MovieMaster { get; set; }    //This will be used for FK crud operation
         public virtual TheatreScreen TheatreScreen { get; set; }    //This will be used for FK crud operation
     }

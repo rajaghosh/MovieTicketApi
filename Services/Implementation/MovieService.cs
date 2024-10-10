@@ -1,10 +1,9 @@
-﻿using MovieTicketApi.DatabaseContext;
-using MovieTicketApi.DatabaseContext.Repo;
+﻿using MovieTicketApi.DatabaseContext.Repo;
 using MovieTicketApi.DTO;
 using MovieTicketApi.Entities;
-using System.Net;
+using MovieTicketApi.Services.Interface;
 
-namespace MovieTicketApi.Services
+namespace MovieTicketApi.Services.Implementation
 {
     public class MovieService : IMovieService
     {
@@ -38,6 +37,20 @@ namespace MovieTicketApi.Services
                 return new List<MovieDto>();
             }
         }
+
+        public async Task<List<MovieMaster>> GetSpecificMovieDetailsAsync(List<int> movieIds)
+        {
+            try
+            {
+                var movies = await _repo.GetAllAsync();
+                return movies.Where(p => movieIds.Contains(p.Id)).ToList();
+            }
+            catch (Exception ex)
+            {
+                return new List<MovieMaster>();
+            }
+        }
+
 
         public async Task<bool> AddToMovieAsync(AddMovieDto movieDto)
         {

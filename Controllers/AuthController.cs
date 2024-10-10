@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using MovieTicketApi.Services;
+using MovieTicketApi.Services.Interface;
 
 namespace MovieTicketApi.Controllers
 {
@@ -28,5 +28,17 @@ namespace MovieTicketApi.Controllers
             }
             return token;
         }
+
+        //[HttpPost("ValidateToken")]
+        //public async Task<string> CheckToken(string email, string password)
+        //{
+        //    var isUserValid = await _userService.IsEmailValidAsync(email, password);
+        //    var token = String.Empty;
+        //    if (isUserValid)
+        //    {
+        //        token = await _authService.GenerateJwtToken(email);
+        //    }
+        //    return token;
+        //}
     }
 }

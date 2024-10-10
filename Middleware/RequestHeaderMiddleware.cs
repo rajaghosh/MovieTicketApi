@@ -1,4 +1,4 @@
-﻿using MovieTicketApi.Services;
+﻿using MovieTicketApi.Services.Interface;
 using System.Net;
 
 namespace MovieTicketApi.Middleware
@@ -31,8 +31,9 @@ namespace MovieTicketApi.Middleware
             //}
             //else
             //{
+
             //context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
-            await _next(context);
+            //await _next(context);
 
             var authorization = context.Request.Headers["Authorization"];
             var tokenString = authorization[0].Replace("Bearer ", "").Replace("bearer ", "").Trim();

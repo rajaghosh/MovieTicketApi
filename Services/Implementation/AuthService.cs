@@ -1,12 +1,13 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.IdentityModel.Tokens;
 using MovieTicketApi.DatabaseContext.Repo;
 using MovieTicketApi.DTO;
 using MovieTicketApi.Entities;
+using MovieTicketApi.Services.Interface;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Text;
 
-namespace MovieTicketApi.Services
+namespace MovieTicketApi.Services.Implementation
 {
     public class AuthService : IAuthService
     {
@@ -28,7 +29,7 @@ namespace MovieTicketApi.Services
             _jwt_secret = _config.GetValue<string>("Jwt:jwt_secret") ?? "";
             _jwt_audience = _config.GetValue<string>("Jwt:jwt_audience") ?? "";
             _jwt_issuer = _config.GetValue<string>("Jwt:jwt_issuer") ?? "";
-
+            key = Encoding.ASCII.GetBytes(_jwt_key);
         }
 
         public async Task<string> GenerateJwtToken(string email)
@@ -49,14 +50,30 @@ namespace MovieTicketApi.Services
                 claimList.Add(new Claim("secret", model.Token_Secret.ToString()));
                 claimList.Add(new Claim("user", model.UserEmail.ToString()));
 
+                var sub = new ClaimsIdentity(claimList);
+                var exp = DateTime.UtcNow.AddDays(1);
+                var signCred = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature);
+
+
                 var tokenDescriptor = new SecurityTokenDescriptor
                 {
-                    Subject = new ClaimsIdentity(claimList),
+                    Subject = sub,
                     Audience = _jwt_audience,
                     Issuer = _jwt_issuer,
-                    Expires = DateTime.UtcNow.AddDays(1),
-                    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+                    Expires = exp,
+                    SigningCredentials = signCred
                 };
+
+
+
+                //var tokenDescriptor = new SecurityTokenDescriptor
+                //{
+                //    Subject = new ClaimsIdentity(claimList),
+                //    Audience = _jwt_audience,
+                //    Issuer = _jwt_issuer,
+                //    Expires = DateTime.UtcNow.AddDays(1),
+                //    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+                //};
 
                 SecurityToken token = await Task.Run(() =>
                 {

@@ -1,9 +1,9 @@
 ﻿using Microsoft.Extensions.Hosting;
 using MovieTicketApi.DTO;
 
-namespace MovieTicketApi.Services
+namespace MovieTicketApi.Services.Interface
 {
-    public interface IAuthService 
+    public interface IAuthService
     {
         Task<string> GenerateJwtToken(string email);
         Task<bool> ValidateJwtToken(string token);
