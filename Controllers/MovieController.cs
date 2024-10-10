@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using MovieTicketApi.DatabaseContext;
 using MovieTicketApi.DTO;
-using MovieTicketApi.Entities;
 using MovieTicketApi.Services.Interface;
 using System.Net;
 
