@@ -11,7 +11,7 @@ namespace MovieTicketApi.Services.Implementation
 {
     public class AuthService : IAuthService
     {
-        private readonly IMovieTicketRepository<UserMaster> _repo;
+        //private readonly IMovieTicketRepository<UserMaster> _repo;
         private readonly IConfiguration _config;
         private readonly byte[] key;
         private readonly string _jwt_key;
@@ -22,7 +22,7 @@ namespace MovieTicketApi.Services.Implementation
 
         public AuthService(IMovieTicketRepository<UserMaster> repo, IConfiguration config)
         {
-            _repo = repo;
+            //_repo = repo;
             _config = config;
             _jwt_key = _config.GetValue<string>("Jwt:jwt_key") ?? "";
             _jwt_id = _config.GetValue<string>("Jwt:jwt_id") ?? "";
@@ -32,7 +32,7 @@ namespace MovieTicketApi.Services.Implementation
             key = Encoding.ASCII.GetBytes(_jwt_key);
         }
 
-        public async Task<string> GenerateJwtToken(string email)
+        public async Task<string> GenerateJwtToken(string email, string userRole)
         {
             TokenModel model = new TokenModel()
             {
@@ -49,6 +49,8 @@ namespace MovieTicketApi.Services.Implementation
                 claimList.Add(new Claim("id", model.Token_Id.ToString()));
                 claimList.Add(new Claim("secret", model.Token_Secret.ToString()));
                 claimList.Add(new Claim("user", model.UserEmail.ToString()));
+                claimList.Add(new Claim("role", userRole));
+                //new Claim(ClaimTypes.Role, user.Role)
 
                 var sub = new ClaimsIdentity(claimList);
                 var exp = DateTime.UtcNow.AddDays(1);
@@ -93,20 +95,57 @@ namespace MovieTicketApi.Services.Implementation
             var tokenHandler = new JwtSecurityTokenHandler();
             try
             {
-                tokenHandler.ValidateToken(token, new TokenValidationParameters
-                {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(key),
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidIssuer = _jwt_issuer,
-                    ValidAudience = _jwt_audience,
+                await Task.Delay(0);
 
-                    ClockSkew = TimeSpan.Zero //token expires exactly at token expiration time
+                //var tokenValidationParam = new TokenValidationParameters()
+                //{
+                //    ValidateIssuerSigningKey = true,
+                //    IssuerSigningKey = new SymmetricSecurityKey(key),
+                //    ValidateIssuer = true,
+                //    ValidateAudience = true,
+                //    ValidIssuer = _jwt_issuer,
+                //    ValidAudience = _jwt_audience,
+                //    ClockSkew = TimeSpan.Zero //token expires exactly at token expiration time
 
-                }, out SecurityToken validatedToken);
+                //};
 
-                Task.WaitAll();
+                var tokenValidationParam = new TokenValidationParameters();
+
+                tokenValidationParam.ValidateIssuerSigningKey = true;
+                tokenValidationParam.IssuerSigningKey = new SymmetricSecurityKey(key);
+                tokenValidationParam.ValidateIssuer = true;
+                tokenValidationParam.ValidateAudience = true;
+                tokenValidationParam.ValidIssuer = _jwt_issuer;
+                tokenValidationParam.ValidAudience = _jwt_audience;
+                tokenValidationParam.ClockSkew = TimeSpan.Zero; //token expires exactly at token expiration time
+
+                tokenHandler.ValidateToken(token, tokenValidationParam, out SecurityToken validatedToken);
+
+
+
+                //ValidateIssuer = true,
+                //ValidateAudience = true,
+                //ValidateLifetime = true,
+                //ValidateIssuerSigningKey = true,
+                //ValidIssuer = builder.Configuration["Jwt:Issuer"],
+                //ValidAudience = builder.Configuration["Jwt:Audience"],
+                //IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+
+
+                //tokenHandler.ValidateToken(token, new TokenValidationParameters
+                //{
+                //    ValidateIssuerSigningKey = true,
+                //    IssuerSigningKey = new SymmetricSecurityKey(key),
+                //    ValidateIssuer = true,
+                //    ValidateAudience = true,
+                //    ValidIssuer = _jwt_issuer,
+                //    ValidAudience = _jwt_audience,
+
+                //    ClockSkew = TimeSpan.Zero //token expires exactly at token expiration time
+
+                //}, out SecurityToken validatedToken);
+
+                //Task.WaitAll();
 
                 var jwtToken = (JwtSecurityToken)validatedToken;
                 var id = jwtToken.Claims.First(x => x.Type == "id").Value;

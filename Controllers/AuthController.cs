@@ -20,11 +20,11 @@ namespace MovieTicketApi.Controllers
         [HttpPost("GetToken")]
         public async Task<string> GetToken(string email, string password)
         {
-            var isUserValid = await _userService.IsEmailValidAsync(email, password);
+            var userRole = await _userService.IsEmailValidAsync(email, password);
             var token = String.Empty;
-            if(isUserValid)
+            if(userRole.Length > 0)
             {
-                token = await _authService.GenerateJwtToken(email);
+                token = await _authService.GenerateJwtToken(email, userRole);
             }
             return token;
         }

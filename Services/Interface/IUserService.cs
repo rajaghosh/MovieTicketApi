@@ -5,8 +5,8 @@ namespace MovieTicketApi.Services.Interface
 {
     public interface IUserService
     {
-        Task<bool> IsEmailValidAsync(string email, string password);
-
+        //Task<bool> IsEmailValidAsync(string email, string password);
+        Task<string> IsEmailValidAsync(string email, string password);
 
         Task<List<UserDto>> GetAllUserNameAsync();
         Task<List<UserMaster>> GetSpecificUserDetailsAsync(List<int> userIds);

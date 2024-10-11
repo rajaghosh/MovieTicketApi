@@ -14,7 +14,7 @@ namespace MovieTicketApi.Services.Implementation
             _repo = repo;
         }
 
-        public async Task<bool> IsEmailValidAsync(string email, string password)
+        public async Task<string> IsEmailValidAsync(string email, string password)
         {
             try
             {
@@ -22,13 +22,13 @@ namespace MovieTicketApi.Services.Implementation
                 var myUser = userList.FirstOrDefault(p => p.Email == email && p.Password == password);
                 if (myUser != null)
                 {
-                    return true;
+                    return myUser.Role;
                 }
-                else { return false; }
+                else { return string.Empty; }
             }
             catch (Exception ex)
             {
-                return false;
+                return string.Empty;
             }
         }
 
@@ -44,7 +44,8 @@ namespace MovieTicketApi.Services.Implementation
                     {
                         Name = item.Name,
                         Email = item.Email,
-                        Location = item.Location
+                        Location = item.Location,
+                        TypeOfUser = item.Role
                     };  
                     result.Add(userObj);
                 }
@@ -78,7 +79,8 @@ namespace MovieTicketApi.Services.Implementation
                     Name = userDto.Name,
                     Email = userDto.Email,
                     Password = userDto.Password,
-                    Location = userDto.Location
+                    Location = userDto.Location,
+                    Role = userDto.TypeOfUser
                 };
 
                 await _repo.AddAsync(userObj);
@@ -100,7 +102,8 @@ namespace MovieTicketApi.Services.Implementation
                     Name = userDto.Name,
                     Email = userDto.Email,
                     Password = userDto.Password,
-                    Location = userDto.Location
+                    Location = userDto.Location,
+                    Role = userDto.TypeOfUser
                 };
 
                 await _repo.UpdateAsync(userObj);

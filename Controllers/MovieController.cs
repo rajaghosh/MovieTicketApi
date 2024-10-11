@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MovieTicketApi.DTO;
+using MovieTicketApi.Helper;
 using MovieTicketApi.Services.Interface;
 using System.Net;
 
@@ -8,6 +9,7 @@ namespace MovieTicketApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [AuthorizeRole("Admin")]
     public class MovieController : Controller
     {
         private readonly IMovieService _movieService;
@@ -17,14 +19,18 @@ namespace MovieTicketApi.Controllers
         }
 
         [HttpGet("GetAllMovie")]
+        //[CustomAuthorize("Admin")]
         public async Task<List<MovieDto>> GetAll()
         {
             var movies = await _movieService.GetAllMovieNameAsync();
             return movies;
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpGet("GetAllMovieTest")]
+        //[CustomAuthorize("Admin")]
+        //[CustomAuthorize("Admin", "User")]
+        //[CustomAuthorize("All")]
         public async Task<List<MovieDto>> GetAll_Test()
         {
             var movies = await _movieService.GetAllMovieNameAsync();

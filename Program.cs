@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using MovieTicketApi;
@@ -13,20 +14,34 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
+
+//builder.Services.AddAuthentication(options =>
+//{
+//    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+//    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+//});
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("AdminPolicy", policy => policy.RequireRole("Admin"));
+    options.AddPolicy("UserPolicy", policy => policy.RequireRole("User"));
+});
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddDbContext<MovieTicketDbContext>(options => 
     options.UseSqlServer(builder.Configuration.GetConnectionString("MovieTicketDb")));
 
-builder.Services.AddScoped(typeof(IMovieTicketRepository<>), typeof(MovieTicketRepository<>));
+builder.Services.AddTransient(typeof(IMovieTicketRepository<>), typeof(MovieTicketRepository<>));
+builder.Services.AddScoped<IAuthService, AuthService>();
+
 builder.Services.AddScoped<IMovieService, MovieService>();
 builder.Services.AddScoped<IUserService, UserService>();
-//builder.Services.AddScoped<ITicketService, TicketService>();
 builder.Services.AddScoped<ITheatreService, TheatreService>();
 builder.Services.AddScoped<ITheatreScreenService, TheatreScreenService>();
 builder.Services.AddScoped<IBookingService, BookingService>();
-builder.Services.AddScoped<IAuthService, AuthService>();
+
 builder.Services.AddScoped<IMovieListingService, MovieListingService>();
 
 builder.Services.AddSwaggerGen();
@@ -44,14 +59,17 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+//app.UseAuthentication();
 app.UseAuthorization();
-//app.UseAuthorization();
 
-//app.UseMiddleware<RequestHeaderMiddleware>();
+app.UseMiddleware<RequestHeaderMiddleware>();
 
 app.MapControllers();
 
+//app.UseMiddleware<RequestHeaderMiddleware>();
+
 //SeedDB.TestDB();
+//DBSync.SyncDBObjects();
 
 app.Run();
 

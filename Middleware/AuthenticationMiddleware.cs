@@ -5,7 +5,7 @@ using System.Text;
 
 namespace MovieTicketApi.Middleware
 {
-    public static class AuthenticationMiiddleware
+    public static class AuthenticationMiddleware
     {
         public static IServiceCollection GetToken(this IServiceCollection service, IConfiguration config)
         {
