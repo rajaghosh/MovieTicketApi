@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MovieTicketApi.DatabaseContext;
 
 namespace MovieTicketApi.DatabaseContext.Repo
 {

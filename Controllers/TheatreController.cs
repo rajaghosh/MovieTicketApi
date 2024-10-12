@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MovieTicketApi.DTO;
+using MovieTicketApi.Helper;
 using System.Net;
 using TheatreTicketApi.Services.Interface;
 
@@ -7,6 +8,7 @@ namespace MovieTicketApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [AuthorizeRole("All")]
     public class TheatreController : Controller
     {
         private readonly ITheatreService _theatreService;

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MovieTicketApi.DTO;
+using MovieTicketApi.Helper;
 using MovieTicketApi.Services.Interface;
 using System.Net;
 
@@ -7,6 +8,7 @@ namespace MovieTicketApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [AuthorizeRole("All")]
     public class MovieListingController : Controller
     {
         private readonly IMovieListingService _movieListingService;

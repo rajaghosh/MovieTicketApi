@@ -21,8 +21,6 @@ namespace MovieTicketApi.Helper
                 context.Result = new Microsoft.AspNetCore.Mvc.UnauthorizedResult();
                 return;
             }
-
-            //if(_roles.Any(role => role.Equals(Roles.All)))      //Check for general role
            
             if(_roles.Contains(Roles.All.ToString()))      //Check for general role
             {

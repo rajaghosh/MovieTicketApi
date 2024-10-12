@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MovieTicketApi.DTO;
 using MovieTicketApi.Services.Interface;
+using System.ComponentModel.DataAnnotations;
 
 namespace MovieTicketApi.Controllers
 {
@@ -9,7 +11,7 @@ namespace MovieTicketApi.Controllers
     {
         private readonly IAuthService _authService;
         private readonly IUserService _userService;
-        //private readonly 
+
         public AuthController(IAuthService authService, IUserService userService)
         {
             _authService = authService;
@@ -18,27 +20,32 @@ namespace MovieTicketApi.Controllers
         }
 
         [HttpPost("GetToken")]
-        public async Task<string> GetToken(string email, string password)
+        public async Task<TokenDto> GetToken([FromQuery][Required] string email, [FromQuery][Required] string password)
         {
-            var userRole = await _userService.IsEmailValidAsync(email, password);
-            var token = String.Empty;
-            if(userRole.Length > 0)
+            TokenDto resp = new TokenDto
             {
-                token = await _authService.GenerateJwtToken(email, userRole);
-            }
-            return token;
-        }
+                StatusCode = System.Net.HttpStatusCode.BadRequest,
+                Token = String.Empty
+            };
 
-        //[HttpPost("ValidateToken")]
-        //public async Task<string> CheckToken(string email, string password)
-        //{
-        //    var isUserValid = await _userService.IsEmailValidAsync(email, password);
-        //    var token = String.Empty;
-        //    if (isUserValid)
-        //    {
-        //        token = await _authService.GenerateJwtToken(email);
-        //    }
-        //    return token;
-        //}
+            try
+            {
+                var userRole = await _userService.IsEmailValidAsync(email, password);
+                
+                string token = string.Empty;
+                if (userRole.Length > 0)
+                {
+                    token = await _authService.GenerateJwtToken(email, userRole);
+                }
+                resp.StatusCode = System.Net.HttpStatusCode.OK;
+                resp.Token = token;
+
+                return resp;
+            }
+            catch (Exception ex)
+            {
+                return resp;
+            }
+        }
     }
 }

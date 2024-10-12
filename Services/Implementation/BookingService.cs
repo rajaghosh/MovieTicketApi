@@ -79,7 +79,6 @@ namespace MovieTicketApi.Services.Implementation
                 string bookingHour = bookingDto.BookingDateTime.ToString("HH");//.ToString("D2");
                 string bookingMin = bookingDto.BookingDateTime.ToString("mm");//.ToString("D2");
 
-                //var bookingTime = $"{bookingDto.BookingHour.ToString("D2")}:{bookingDto.BookingMin.ToString("D2")}:00"; //ToString("D2") - this will make sure format is HH:mm:ss
                 var bookingTime = $"{bookingHour}:{bookingMin}:00";
 
                 //Check if the seat is already book
@@ -155,8 +154,6 @@ namespace MovieTicketApi.Services.Implementation
         {
             try
             {
-                //var bookingTime = $"{bookingDto.BookingHour.ToString("D2")}:{bookingDto.BookingMin.ToString("D2")}:00"; //ToString("D2") - this will make sure format is HH:mm:ss
-
                 string bookingHour = bookingDto.BookingDateTime.ToString("HH");//.ToString("D2");
                 string bookingMin = bookingDto.BookingDateTime.ToString("mm");//.ToString("D2");
 

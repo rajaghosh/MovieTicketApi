@@ -15,12 +15,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
-//builder.Services.AddAuthentication(options =>
-//{
-//    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-//    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-//});
-
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("AdminPolicy", policy => policy.RequireRole("Admin"));
@@ -65,11 +59,6 @@ app.UseAuthorization();
 app.UseMiddleware<RequestHeaderMiddleware>();
 
 app.MapControllers();
-
-//app.UseMiddleware<RequestHeaderMiddleware>();
-
-//SeedDB.TestDB();
-//DBSync.SyncDBObjects();
 
 app.Run();
 

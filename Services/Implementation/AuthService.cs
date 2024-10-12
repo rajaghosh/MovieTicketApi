@@ -11,7 +11,6 @@ namespace MovieTicketApi.Services.Implementation
 {
     public class AuthService : IAuthService
     {
-        //private readonly IMovieTicketRepository<UserMaster> _repo;
         private readonly IConfiguration _config;
         private readonly byte[] key;
         private readonly string _jwt_key;
@@ -66,17 +65,6 @@ namespace MovieTicketApi.Services.Implementation
                     SigningCredentials = signCred
                 };
 
-
-
-                //var tokenDescriptor = new SecurityTokenDescriptor
-                //{
-                //    Subject = new ClaimsIdentity(claimList),
-                //    Audience = _jwt_audience,
-                //    Issuer = _jwt_issuer,
-                //    Expires = DateTime.UtcNow.AddDays(1),
-                //    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-                //};
-
                 SecurityToken token = await Task.Run(() =>
                 {
                     return tokenHandler.CreateToken(tokenDescriptor);
@@ -97,18 +85,6 @@ namespace MovieTicketApi.Services.Implementation
             {
                 await Task.Delay(0);
 
-                //var tokenValidationParam = new TokenValidationParameters()
-                //{
-                //    ValidateIssuerSigningKey = true,
-                //    IssuerSigningKey = new SymmetricSecurityKey(key),
-                //    ValidateIssuer = true,
-                //    ValidateAudience = true,
-                //    ValidIssuer = _jwt_issuer,
-                //    ValidAudience = _jwt_audience,
-                //    ClockSkew = TimeSpan.Zero //token expires exactly at token expiration time
-
-                //};
-
                 var tokenValidationParam = new TokenValidationParameters();
 
                 tokenValidationParam.ValidateIssuerSigningKey = true;
@@ -120,32 +96,6 @@ namespace MovieTicketApi.Services.Implementation
                 tokenValidationParam.ClockSkew = TimeSpan.Zero; //token expires exactly at token expiration time
 
                 tokenHandler.ValidateToken(token, tokenValidationParam, out SecurityToken validatedToken);
-
-
-
-                //ValidateIssuer = true,
-                //ValidateAudience = true,
-                //ValidateLifetime = true,
-                //ValidateIssuerSigningKey = true,
-                //ValidIssuer = builder.Configuration["Jwt:Issuer"],
-                //ValidAudience = builder.Configuration["Jwt:Audience"],
-                //IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
-
-
-                //tokenHandler.ValidateToken(token, new TokenValidationParameters
-                //{
-                //    ValidateIssuerSigningKey = true,
-                //    IssuerSigningKey = new SymmetricSecurityKey(key),
-                //    ValidateIssuer = true,
-                //    ValidateAudience = true,
-                //    ValidIssuer = _jwt_issuer,
-                //    ValidAudience = _jwt_audience,
-
-                //    ClockSkew = TimeSpan.Zero //token expires exactly at token expiration time
-
-                //}, out SecurityToken validatedToken);
-
-                //Task.WaitAll();
 
                 var jwtToken = (JwtSecurityToken)validatedToken;
                 var id = jwtToken.Claims.First(x => x.Type == "id").Value;

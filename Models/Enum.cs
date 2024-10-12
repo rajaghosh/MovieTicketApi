@@ -6,4 +6,12 @@
         User,   //For customer
         All     //For Any Role
     }
+
+    public enum LoggerType
+    {
+        ConsoleLog,
+        DbLog,
+        FileLog,
+        AppInsightsLog
+    }
 }

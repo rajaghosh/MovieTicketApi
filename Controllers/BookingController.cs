@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MovieTicketApi.DTO;
+using MovieTicketApi.Helper;
 using MovieTicketApi.Services.Interface;
 using System.Net;
 
@@ -7,6 +8,7 @@ namespace MovieTicketApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [AuthorizeRole("All")]
     public class BookingController : Controller
     {
         private readonly IBookingService _bookingService;
@@ -23,7 +25,7 @@ namespace MovieTicketApi.Controllers
         }
 
         [HttpPost("AddNewBooking")]
-        public async Task<HttpStatusCode> PostMovie(AddBookingDto bookingDto)
+        public async Task<HttpStatusCode> PostMovie([FromBody] AddBookingDto bookingDto)
         {
             var res = await _bookingService.AddToBookingAsync(bookingDto);
             return res == true ? HttpStatusCode.OK : HttpStatusCode.InternalServerError;

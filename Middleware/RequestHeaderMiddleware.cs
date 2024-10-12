@@ -6,27 +6,15 @@ namespace MovieTicketApi.Middleware
     public class RequestHeaderMiddleware
     {
         private readonly RequestDelegate _next;
-        //private IAuthService _jwtService;
-        public RequestHeaderMiddleware(RequestDelegate next) //, IAuthService jwtService)
+ 
+        public RequestHeaderMiddleware(RequestDelegate next)
         {
             _next = next;
-            //_jwtService = jwtService;
         }
 
         public async Task InvokeAsync(HttpContext context, IAuthService _jwtService)
         {
-
-
             var requestPath = context.Request.Path.Value.ToLower();
-
-            //if (requestPath.Contains("/api/user/addnewuser")
-            //    || requestPath.Contains("/api/user/loginuser")
-            //    || requestPath.Contains("/api/user/getvalidationforaffliateuser")
-            //    //|| requestPath.Contains("/api/user/checksanityofaffliateasync")
-            //    //|| requestPath.Contains("/api/user/updatesaleaffliateasync")
-            //    || requestPath.Contains("/api/product/syncaffliatepayments")
-            //    || requestPath.Contains("/weatherforecast")
-            //    || requestPath == "/")
             if (requestPath.Contains("/api/auth/gettoken"))
             {
                 context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
@@ -34,12 +22,6 @@ namespace MovieTicketApi.Middleware
             }
             else
             {
-
-                //context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
-                //await _next(context);
-
-
-
                 var authorization = context.Request.Headers["Authorization"];
                 var tokenString = authorization[0]?.Replace("Bearer ", "").Replace("bearer ", "").Trim();
 

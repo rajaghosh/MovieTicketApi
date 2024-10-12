@@ -1,15 +1,15 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using MovieTicketApi.DTO;
 using MovieTicketApi.Helper;
 using MovieTicketApi.Services.Interface;
+using System.ComponentModel.DataAnnotations;
 using System.Net;
 
 namespace MovieTicketApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [AuthorizeRole("Admin")]
+    [AuthorizeRole("All")]
     public class MovieController : Controller
     {
         private readonly IMovieService _movieService;
@@ -19,44 +19,109 @@ namespace MovieTicketApi.Controllers
         }
 
         [HttpGet("GetAllMovie")]
-        //[CustomAuthorize("Admin")]
         public async Task<List<MovieDto>> GetAll()
         {
             var movies = await _movieService.GetAllMovieNameAsync();
             return movies;
         }
 
-        //[Authorize]
-        [HttpGet("GetAllMovieTest")]
-        //[CustomAuthorize("Admin")]
-        //[CustomAuthorize("Admin", "User")]
-        //[CustomAuthorize("All")]
-        public async Task<List<MovieDto>> GetAll_Test()
-        {
-            var movies = await _movieService.GetAllMovieNameAsync();
-            return movies;
-        }
-
-
         [HttpPost("AddNewMovie")]
-        public async Task<HttpStatusCode> PostMovie(AddMovieDto movieDto)
+        public async Task<ResponseDto<string>> PostMovie([FromBody] AddMovieDto movieDto)
         {
-            var res = await _movieService.AddToMovieAsync(movieDto);
-            return res == true ? HttpStatusCode.OK : HttpStatusCode.InternalServerError;
+            ResponseDto<string> resp = new ResponseDto<string>()
+            {
+                StatusCode = HttpStatusCode.BadRequest,
+                Result = String.Empty
+            };
+
+            try
+            {
+                var res = await _movieService.AddToMovieAsync(movieDto);
+
+                if (res)
+                {
+                    resp.StatusCode = HttpStatusCode.OK;
+                    resp.Result = "Movie Info Added Successfully";
+                }
+                else
+                {
+                    resp.StatusCode = HttpStatusCode.InternalServerError;
+                    resp.Result = "Error occured during API execution!. Please check logs";
+                }
+            }
+            catch (Exception ex)
+            {
+                resp.StatusCode = HttpStatusCode.InternalServerError;
+                resp.Result = "Exception occured during API execution!. Please check logs";
+            }
+
+            return resp;
         }
 
         [HttpPut("UpdateMovie")]
-        public async Task<HttpStatusCode> PutMovie(UpdateMovieDto movieDto)
+        public async Task<ResponseDto<string>> PutMovie([FromBody] UpdateMovieDto movieDto)
         {
-            var res = await _movieService.UpdateMovieAsync(movieDto);
-            return res == true ? HttpStatusCode.OK : HttpStatusCode.InternalServerError;
+            ResponseDto<string> resp = new ResponseDto<string>()
+            {
+                StatusCode = HttpStatusCode.BadRequest,
+                Result = String.Empty
+            };
+
+            try
+            {
+                var res = await _movieService.UpdateMovieAsync(movieDto);
+
+                if (res)
+                {
+                    resp.StatusCode = HttpStatusCode.OK;
+                    resp.Result = "Movie Info Updated Successfully";
+                }
+                else
+                {
+                    resp.StatusCode = HttpStatusCode.InternalServerError;
+                    resp.Result = "Error occured during API execution!. Please check logs";
+                }
+            }
+            catch (Exception ex)
+            {
+                resp.StatusCode = HttpStatusCode.InternalServerError;
+                resp.Result = "Exception occured during API execution!. Please check logs";
+            }
+
+            return resp;
         }
 
         [HttpDelete("DeleteMovie")]
-        public async Task<HttpStatusCode> Delete(int movieId)
+        public async Task<ResponseDto<string>> Delete([FromQuery][Required] int movieId)
         {
-            var res = await _movieService.DeleteMovieAsync(movieId);
-            return res == true ? HttpStatusCode.OK : HttpStatusCode.InternalServerError;
+            ResponseDto<string> resp = new ResponseDto<string>()
+            {
+                StatusCode = HttpStatusCode.BadRequest,
+                Result = String.Empty
+            };
+
+            try
+            {
+                var res = await _movieService.DeleteMovieAsync(movieId);
+
+                if (res)
+                {
+                    resp.StatusCode = HttpStatusCode.OK;
+                    resp.Result = "Movie Info Deleted Successfully";
+                }
+                else
+                {
+                    resp.StatusCode = HttpStatusCode.InternalServerError;
+                    resp.Result = "Error occured during API execution!. Please check logs";
+                }
+            }
+            catch (Exception ex)
+            {
+                resp.StatusCode = HttpStatusCode.InternalServerError;
+                resp.Result = "Exception occured during API execution!. Please check logs";
+            }
+
+            return resp;
         }
     }
 }

@@ -20,7 +20,6 @@ namespace MovieTicketApi.DTO
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public string StartTime { get; set; }
-        //public string EndTime { get; set; }
     }
 
     public class UpdateMovieListingDto : AddMovieListingDto
@@ -33,7 +32,6 @@ namespace MovieTicketApi.DTO
     public class ListingSearch
     {
         public int MovieId { get; set; }
-        //public int TheatreId { get; set; } //Not needed as TheatreId can be checked using screenId and theatreId mapping
         public int ScreenId { get; set; }
         public DateTime MovieStartDateTime { get; set; }
     }

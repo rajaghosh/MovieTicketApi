@@ -1,7 +1,4 @@
-﻿using Microsoft.Extensions.Hosting;
-using MovieTicketApi.DTO;
-
-namespace MovieTicketApi.Services.Interface
+﻿namespace MovieTicketApi.Services.Interface
 {
     public interface IAuthService
     {
