@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using MovieTicketApi.DTO;
+using MovieTicket.BusinessService.Services.Interface;
+using MovieTicket.ModelHelper.DTO;
 using MovieTicketApi.Helper;
 using MovieTicketApi.LoggerFactory;
-using MovieTicketApi.Services.Interface;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
 

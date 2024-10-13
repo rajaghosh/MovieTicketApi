@@ -1,4 +1,4 @@
-﻿using MovieTicketApi.Models;
+﻿using MovieTicket.ModelHelper.Models;
 
 namespace MovieTicketApi.LoggerFactory
 {

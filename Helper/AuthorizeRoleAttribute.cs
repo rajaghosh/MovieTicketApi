@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.Filters;
-using MovieTicketApi.Models;
+using MovieTicket.ModelHelper.Models;
 
 namespace MovieTicketApi.Helper
 {

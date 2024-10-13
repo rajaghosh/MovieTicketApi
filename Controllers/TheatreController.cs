@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using MovieTicketApi.DTO;
+using MovieTicket.BusinessService.Services.Interface;
+using MovieTicket.ModelHelper.DTO;
 using MovieTicketApi.Helper;
 using System.Net;
-using TheatreTicketApi.Services.Interface;
 
 namespace MovieTicketApi.Controllers
 {

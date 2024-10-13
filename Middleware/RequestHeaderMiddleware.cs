@@ -1,4 +1,4 @@
-﻿using MovieTicketApi.Services.Interface;
+﻿using MovieTicket.BusinessService.Services.Interface;
 using System.Net;
 
 namespace MovieTicketApi.Middleware

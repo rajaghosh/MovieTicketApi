@@ -1,11 +1,10 @@
 using Microsoft.EntityFrameworkCore;
-using MovieTicketApi.DatabaseContext;
-using MovieTicketApi.DatabaseContext.Repo;
+using MovieTicket.BusinessService.Services.Implementation;
+using MovieTicket.BusinessService.Services.Interface;
+using MovieTicket.DBHelper.DatabaseContext;
+using MovieTicket.DBHelper.DatabaseContext.Repo;
 using MovieTicketApi.LoggerFactory;
 using MovieTicketApi.Middleware;
-using MovieTicketApi.Services.Implementation;
-using MovieTicketApi.Services.Interface;
-using TheatreTicketApi.Services.Interface;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -42,6 +41,8 @@ builder.Services.AddScoped<IMovieListingService, MovieListingService>();
 
 builder.Services.AddSingleton<ICustomLoggerFactory, CustomLoggerFactory>();
 builder.Services.AddSingleton<ICustomLogger, FileLogger>();   //This is additional step
+
+builder.Services.AddSingleton<IAppSettings, AppSettings>();
 
 builder.Services.AddSwaggerGen();
 

@@ -3,7 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34714.143
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieTicketApi", "MovieTicketApi.csproj", "{40C89CB9-9D6E-4B26-A769-17FB997DBA5A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieTicketApi", "MovieTicketApi.csproj", "{40C89CB9-9D6E-4B26-A769-17FB997DBA5A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieTicket.BusinessService", "..\BusinessService\MovieTicket.BusinessService.csproj", "{F205AB01-81F2-4218-BAD6-C24349175DBB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieTicket.DBHelper", "..\MovieTicket.DBHelper\MovieTicket.DBHelper.csproj", "{E7146F64-DDE7-4D5F-A2C4-98592A204F33}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieTicket.ModelHelper", "..\MovieTicket.ModelHelper\MovieTicket.ModelHelper.csproj", "{5413D9AD-BC2A-4DBE-8FE4-FCE33601D390}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +21,18 @@ Global
 		{40C89CB9-9D6E-4B26-A769-17FB997DBA5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{40C89CB9-9D6E-4B26-A769-17FB997DBA5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{40C89CB9-9D6E-4B26-A769-17FB997DBA5A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F205AB01-81F2-4218-BAD6-C24349175DBB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F205AB01-81F2-4218-BAD6-C24349175DBB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F205AB01-81F2-4218-BAD6-C24349175DBB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F205AB01-81F2-4218-BAD6-C24349175DBB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E7146F64-DDE7-4D5F-A2C4-98592A204F33}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7146F64-DDE7-4D5F-A2C4-98592A204F33}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E7146F64-DDE7-4D5F-A2C4-98592A204F33}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7146F64-DDE7-4D5F-A2C4-98592A204F33}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5413D9AD-BC2A-4DBE-8FE4-FCE33601D390}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5413D9AD-BC2A-4DBE-8FE4-FCE33601D390}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5413D9AD-BC2A-4DBE-8FE4-FCE33601D390}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5413D9AD-BC2A-4DBE-8FE4-FCE33601D390}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
