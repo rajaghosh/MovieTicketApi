@@ -32,7 +32,8 @@ namespace MovieTicketApi.Controllers
                 Result = new List<MovieDto>()
             };
 
-            _logger.InfoLog($"Calling GetAllMovie API started");
+            _logger.InfoLog($"Calling GetAllMovie API started by Id/Role: {HttpContext.UserDetails()}");
+
             try
             {
                 _logger.InfoLog($"Calling GetAllMovieNameAsync service");
@@ -40,7 +41,7 @@ namespace MovieTicketApi.Controllers
 
                 if (movies.Any())
                 {
-                    _logger.InfoLog($"Info retrieved for GetAllMovie Api");
+                    _logger.InfoLog($"Info retrieved successfully for GetAllMovie Api");
                     resp.StatusCode = HttpStatusCode.OK;
                     resp.Result = movies;
                 }
@@ -54,7 +55,7 @@ namespace MovieTicketApi.Controllers
             }
             catch (Exception ex)
             {
-                _logger.InfoLog($"Exception occurred for GetAllMovie Api. Details {ex.Message}");
+                _logger.ErrorLog($"Exception occurred for GetAllMovie Api. Details {ex.Message}");
                 resp.StatusCode = HttpStatusCode.InternalServerError;
                 resp.Result = null;
                 resp.ErrorMessage = "Exception occurred during API execution!. Please check logs";
@@ -72,27 +73,33 @@ namespace MovieTicketApi.Controllers
                 Result = String.Empty
             };
 
+            _logger.InfoLog($"Calling AddNewMovie API started by Id/Role: {HttpContext.UserDetails()}");
+
             try
             {
-                //_logger.LogInformation("Operation Started");
+                _logger.InfoLog($"Calling AddToMovieAsync service");
                 var res = await _movieService.AddToMovieAsync(movieDto);
-                //_logger.LogInformation("Result Received");
 
                 if (res)
                 {
+                    _logger.InfoLog($"Info added successfully for AddNewMovie Api");
                     resp.StatusCode = HttpStatusCode.OK;
                     resp.Result = "Movie Info Added Successfully";
                 }
                 else
                 {
+                    _logger.InfoLog($"No data added for AddNewMovie Api");
                     resp.StatusCode = HttpStatusCode.InternalServerError;
-                    resp.Result = "Error occured during API execution!. Please check logs";
+                    resp.Result = null;
+                    resp.ErrorMessage = "Error occured during API execution!. Please check logs";
                 }
             }
             catch (Exception ex)
             {
+                _logger.ErrorLog($"Exception occurred for AddNewMovie Api. Details {ex.Message}");
                 resp.StatusCode = HttpStatusCode.InternalServerError;
-                resp.Result = "Exception occured during API execution!. Please check logs";
+                resp.Result = null;
+                resp.ErrorMessage = "Exception occured during API execution!. Please check logs";
             }
 
             return resp;
@@ -107,25 +114,33 @@ namespace MovieTicketApi.Controllers
                 Result = String.Empty
             };
 
+            _logger.InfoLog($"Calling UpdateMovie API started by Id/Role: {HttpContext.UserDetails()}");
+
             try
             {
+                _logger.InfoLog($"Calling UpdateMovieAsync service");
                 var res = await _movieService.UpdateMovieAsync(movieDto);
 
                 if (res)
                 {
+                    _logger.InfoLog($"Info updated successfully for UpdateMovie Api");
                     resp.StatusCode = HttpStatusCode.OK;
                     resp.Result = "Movie Info Updated Successfully";
                 }
                 else
                 {
+                    _logger.InfoLog($"No data updated for UpdateMovie Api");
                     resp.StatusCode = HttpStatusCode.InternalServerError;
-                    resp.Result = "Error occured during API execution!. Please check logs";
+                    resp.Result = null;
+                    resp.ErrorMessage = "Error occured during API execution!. Please check logs";
                 }
             }
             catch (Exception ex)
             {
+                _logger.ErrorLog($"Exception occurred for UpdateMovie Api. Details {ex.Message}");
                 resp.StatusCode = HttpStatusCode.InternalServerError;
-                resp.Result = "Exception occured during API execution!. Please check logs";
+                resp.Result = null;
+                resp.ErrorMessage = "Exception occured during API execution!. Please check logs";
             }
 
             return resp;
@@ -140,25 +155,33 @@ namespace MovieTicketApi.Controllers
                 Result = String.Empty
             };
 
+            _logger.InfoLog($"Calling DeleteMovie API started by Id/Role: {HttpContext.UserDetails()}");
+
             try
             {
+                _logger.InfoLog($"Calling DeleteMovieAsync service");
                 var res = await _movieService.DeleteMovieAsync(movieId);
 
                 if (res)
                 {
+                    _logger.InfoLog($"Info deleted successfully for DeleteMovie Api");
                     resp.StatusCode = HttpStatusCode.OK;
                     resp.Result = "Movie Info Deleted Successfully";
                 }
                 else
                 {
+                    _logger.InfoLog($"No data deleted for DeleteMovie Api");
                     resp.StatusCode = HttpStatusCode.InternalServerError;
-                    resp.Result = "Error occured during API execution!. Please check logs";
+                    resp.Result = null;
+                    resp.ErrorMessage = "Error occured during API execution!. Please check logs";
                 }
             }
             catch (Exception ex)
             {
+                _logger.ErrorLog($"Exception occurred for DeleteMovie Api. Details {ex.Message}");
                 resp.StatusCode = HttpStatusCode.InternalServerError;
-                resp.Result = "Exception occured during API execution!. Please check logs";
+                resp.Result = null;
+                resp.ErrorMessage = "Exception occured during API execution!. Please check logs";
             }
 
             return resp;
