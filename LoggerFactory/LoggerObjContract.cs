@@ -16,7 +16,7 @@
     {
         private readonly IConfiguration _config;
         private readonly string _filePath;
-        //private readonly string _logFileName;
+
         public FileLoggerFactory(IConfiguration config)
         {
             _config = config;
@@ -29,18 +29,14 @@
                 _filePath = string.Concat(_filePath, $"MovieTicketLogs_{DateTime.Now.ToString("MMddyyyy")}.log");
 
         }
-        //string logFileName = $"MovieTicketLogs_{DateTime.Now.ToString("MMddyyyy_HHmmss")}.log";
-
 
         public void InformationLog(string logData)
         {
-            //using (StreamWriter w = File.AppendText("MovieTicketLogs.log"))
             using (StreamWriter w = File.AppendText(_filePath))
                 w.WriteLine($"{DateTime.Now} - Info: {logData}");
         }
         public void ErrorLog(string logData)
         {
-            //using (StreamWriter w = File.AppendText("MovieTicketLogs.log"))
             using (StreamWriter w = File.AppendText(_filePath))
                 w.WriteLine($"{DateTime.Now} - Error: {logData}");
         }

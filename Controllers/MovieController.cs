@@ -2,7 +2,6 @@
 using MovieTicketApi.DTO;
 using MovieTicketApi.Helper;
 using MovieTicketApi.LoggerFactory;
-using MovieTicketApi.Models;
 using MovieTicketApi.Services.Interface;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
@@ -15,32 +14,53 @@ namespace MovieTicketApi.Controllers
     public class MovieController : Controller
     {
         private readonly IMovieService _movieService;
-        //private readonly ILoggerFactory _loggerFactory;
-        //private readonly ICustomLoggerFactory _loggerFactory;
-
         private readonly ICustomLogger _logger;
 
-
-        //private readonly ILoggerObjContract _logger;
-        public MovieController(IMovieService movieService, ICustomLogger logger) //ICustomLoggerFactory loggerFactory)
+        public MovieController(IMovieService movieService,
+                                ICustomLogger logger)
         {
             _movieService = movieService;
             _logger = logger;
-
-
-            //_loggerFactory = loggerFactory;
-
-
-            //_logger = _loggerFactory.CreateLogger(LoggerType.FileLog);
-
         }
 
         [HttpGet("GetAllMovie")]
-        public async Task<List<MovieDto>> GetAll()
+        public async Task<ResponseDto<List<MovieDto>>> GetAll()
         {
-            _logger.InfoLog("Started123.....");
-            var movies = await _movieService.GetAllMovieNameAsync();
-            return movies;
+            ResponseDto<List<MovieDto>> resp = new ResponseDto<List<MovieDto>>()
+            {
+                StatusCode = HttpStatusCode.BadRequest,
+                Result = new List<MovieDto>()
+            };
+
+            _logger.InfoLog($"Calling GetAllMovie API started");
+            try
+            {
+                _logger.InfoLog($"Calling GetAllMovieNameAsync service");
+                var movies = await _movieService.GetAllMovieNameAsync();
+
+                if (movies.Any())
+                {
+                    _logger.InfoLog($"Info retrieved for GetAllMovie Api");
+                    resp.StatusCode = HttpStatusCode.OK;
+                    resp.Result = movies;
+                }
+                else
+                {
+                    _logger.InfoLog($"No data retrieved for GetAllMovie Api");
+                    resp.StatusCode = HttpStatusCode.InternalServerError;
+                    resp.Result = null;
+                    resp.ErrorMessage = "No data retrieved during API execution!. Please check logs";
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.InfoLog($"Exception occurred for GetAllMovie Api. Details {ex.Message}");
+                resp.StatusCode = HttpStatusCode.InternalServerError;
+                resp.Result = null;
+                resp.ErrorMessage = "Exception occurred during API execution!. Please check logs";
+            }
+
+            return resp;
         }
 
         [HttpPost("AddNewMovie")]

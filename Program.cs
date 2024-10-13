@@ -1,7 +1,4 @@
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using MovieTicketApi;
 using MovieTicketApi.DatabaseContext;
 using MovieTicketApi.DatabaseContext.Repo;
 using MovieTicketApi.LoggerFactory;
