@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using MovieTicketApi;
 using MovieTicketApi.DatabaseContext;
 using MovieTicketApi.DatabaseContext.Repo;
+using MovieTicketApi.LoggerFactory;
 using MovieTicketApi.Middleware;
 using MovieTicketApi.Services.Implementation;
 using MovieTicketApi.Services.Interface;
@@ -12,6 +13,10 @@ using TheatreTicketApi.Services.Interface;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
+
 
 builder.Services.AddControllers();
 
@@ -37,6 +42,9 @@ builder.Services.AddScoped<ITheatreScreenService, TheatreScreenService>();
 builder.Services.AddScoped<IBookingService, BookingService>();
 
 builder.Services.AddScoped<IMovieListingService, MovieListingService>();
+
+builder.Services.AddSingleton<ICustomLoggerFactory, CustomLoggerFactory>();
+builder.Services.AddSingleton<ICustomLogger, FileLogger>();   //This is additional step
 
 builder.Services.AddSwaggerGen();
 

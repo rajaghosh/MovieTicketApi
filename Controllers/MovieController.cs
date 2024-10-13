@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MovieTicketApi.DTO;
 using MovieTicketApi.Helper;
+using MovieTicketApi.LoggerFactory;
+using MovieTicketApi.Models;
 using MovieTicketApi.Services.Interface;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
@@ -13,14 +15,30 @@ namespace MovieTicketApi.Controllers
     public class MovieController : Controller
     {
         private readonly IMovieService _movieService;
-        public MovieController(IMovieService movieService)
+        //private readonly ILoggerFactory _loggerFactory;
+        //private readonly ICustomLoggerFactory _loggerFactory;
+
+        private readonly ICustomLogger _logger;
+
+
+        //private readonly ILoggerObjContract _logger;
+        public MovieController(IMovieService movieService, ICustomLogger logger) //ICustomLoggerFactory loggerFactory)
         {
             _movieService = movieService;
+            _logger = logger;
+
+
+            //_loggerFactory = loggerFactory;
+
+
+            //_logger = _loggerFactory.CreateLogger(LoggerType.FileLog);
+
         }
 
         [HttpGet("GetAllMovie")]
         public async Task<List<MovieDto>> GetAll()
         {
+            _logger.InfoLog("Started123.....");
             var movies = await _movieService.GetAllMovieNameAsync();
             return movies;
         }
@@ -36,7 +54,9 @@ namespace MovieTicketApi.Controllers
 
             try
             {
+                //_logger.LogInformation("Operation Started");
                 var res = await _movieService.AddToMovieAsync(movieDto);
+                //_logger.LogInformation("Result Received");
 
                 if (res)
                 {
